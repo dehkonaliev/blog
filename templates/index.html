@@ -3,4 +3,13 @@
 {% block content %}
 <h1>Home</h1>
 
+{% for post in posts %}
+    <h1>{{post.title}}</h1>
+    <h2>{{post.desc}}</h2>
+    <h2>{{post.body}}</h2>
+    <h2>{{post.author}}</h2>
+    <h2>{{post.created_at}}</h2>
+
+{% endfor %}
+
 {% endblock %}
