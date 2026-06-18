@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
+
+
 {% block content %}
+    <br>
+    <a href="{% url 'create-post' %}">Create Post</a>
+    <br>
     {{request.user.username}}
     {{request.user.password}}
 {% endblock %}
