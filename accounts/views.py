@@ -19,3 +19,7 @@ class LoginView(View):
             return redirect('home')
         
         return render(request, 'login.html', {'form':form})
+    
+class ProfileView(View):
+    def get(self, request):
+        return render(request, 'profile.html')
