@@ -80,3 +80,7 @@ class PostUpdateView(View):
             return redirect('post-detail', pk=post.pk)
                     
         return render(request, 'post-update.html', {'form':form})
+    
+class PostDeleteView(View):
+    pass
+
