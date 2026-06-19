@@ -18,19 +18,14 @@ class Post(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
+    @property
+    def users_who_liked(self):
+        # Returns a list of user objects who liked this post
+        return [like.user for like in self.likes.all()]
+    
     def __str__(self):
         return self.title
     
-class Like(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        unique_together = ('post', 'user')
-        
-    def __str__(self):
-        return f"{self.user} liked {self.post.title}"
     
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comment')
@@ -43,6 +38,17 @@ class Comment(models.Model):
         
     def __str__(self):
         return f"{self.author} commented on {self.post.title}"
+    
+class Like(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='likes')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        unique_together = ('post', 'user')
+        
+    def __str__(self):
+        return f"{self.user} liked {self.post.title}"
     
     
     

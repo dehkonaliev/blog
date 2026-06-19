@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm
+from .models import Post, Like, Comment
 
 class CreatePost(View):
     def get(self, request):
@@ -17,3 +18,15 @@ class CreatePost(View):
             return redirect('profile')
         
         return render(request, 'create-post.html', {'form':form})
+
+
+class LikeView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        
+        if not created:
+            like.delete()
+            
+        return redirect('home')

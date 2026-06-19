@@ -10,6 +10,15 @@
     <h2>{{post.author}}</h2>
     <h2>{{post.created_at}}</h2>
 
+    <form method="POST" action="{% url 'like' post.pk %}">
+        {% csrf_token %}
+        {% if request.user in post.users_who_liked %}
+            <button type="submit">Unlike</button>
+        {% else %}
+            <button type="submit">Like</button>
+        {% endif %}
+    </form>
+
 {% endfor %}
 
 {% endblock %}
