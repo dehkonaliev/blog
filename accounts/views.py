@@ -24,5 +24,5 @@ class LoginView(View):
     
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
-        posts = Post.objects.filter(author=request.user)
+        posts = Post.objects.filter(author=request.user).order_by('-id')
         return render(request, 'profile.html', {'posts':posts})

@@ -4,7 +4,7 @@ from posts.models import Post
 
 class HomeView(View):
     def get(self, request):
-        posts = Post.objects.all()[:6]
+        posts = Post.objects.order_by('-id')[:6]
         return render(request, 'index.html', {'posts':posts})
     
 

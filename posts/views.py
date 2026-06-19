@@ -64,3 +64,19 @@ class CommentView(LoginRequiredMixin, View):
             return redirect(next_page)
         
         return redirect('home')
+    
+class PostUpdateView(View):
+    def get(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(instance=post)
+        return render(request, 'post-update.html', {'form':form})
+    
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            
+            return redirect('post-detail', pk=post.pk)
+                    
+        return render(request, 'post-update.html', {'form':form})
