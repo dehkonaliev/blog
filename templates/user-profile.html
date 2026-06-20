@@ -24,26 +24,19 @@
                     <!-- Crisp Circular Avatar -->
                     <div class="h-32 w-32 rounded-full bg-white p-1.5 shadow-lg flex-shrink-0 z-10">
                         <div class="h-full w-full rounded-full overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white text-4xl font-black uppercase tracking-wider">
-                            {% if request.user.profile_img %}
-                                <img src="{{ request.user.profile_img.url }}" alt="{{ request.user.username }}" class="w-full h-full object-cover rounded-full">
+                            {% if user.profile_img %}
+                                <img src="{{ user.profile_img.url }}" alt="{{ user.username }}" class="w-full h-full object-cover rounded-full">
                             {% else %}
-                                {% if request.user.username %}
-                                    {{ request.user.username|slice:":2" }}
+                                {% if user.username %}
+                                    {{ user.username|slice:":2" }}
                                 {% else %}
                                     WR
                                 {% endif %}
                             {% endif %}
                         </div>
 
-                        <a href="{% url 'user' %}">Update Profile</a>
                     </div>
 
-                    <!-- Clean Primary Action Button -->
-                    <div class="flex items-center gap-3">
-                        <a href="{% url 'create-post' %}" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-95 shadow-md shadow-indigo-100 hover:shadow-lg transition-all duration-150">
-                            <i class="fas fa-plus text-xs"></i> Create Post
-                        </a>
-                    </div>
                 </div>
 
                 <!-- Structured User Info Block -->
@@ -60,7 +53,7 @@
                     
                     <p class="text-sm text-slate-500 flex items-center gap-2">
                         <i class="far fa-calendar-alt text-slate-400"></i>
-                        Member since {{ request.user.date_joined|date:"F Y"|default:"June 2026" }}
+                        Member since {{ user.date_joined|date:"F Y"|default:"June 2026" }}
                     </p>
                 </div>
 

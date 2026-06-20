@@ -80,21 +80,21 @@
                 </a>
 
                 <!-- Author & Social Footer Section -->
-                <section class="mt-12 pt-10 border-t border-slate-200">
-                    <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                        <div class="h-12 w-12 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg uppercase shadow-inner flex-shrink-0">
-                                {% if post.author.profile_img %}
-                                    <img src="{{ post.author.profile_img.url }}" alt="{{ post.author }}" class="w-full h-full object-cover">
-                                {% else %}
-                                    {{ post.author|slice:":1" }}
-                                {% endif %}
-                            </div>
-                        <a href="{% url 'post-detail' post.pk %}" class="flex-grow">
-                            <h3 class="text-base font-bold text-slate-900">Written by {{ post.author }}</h3>
-                            <p class="text-sm text-slate-500 mt-1">Publisher and technical content writer at DevBlog sharing thoughts, tutorials, and ecosystem updates.</p>
-                        </a>
-                    </div>
-                </section>
+                 <a href="{% url 'user-profile' post.author.username %}">
+                    <section class="mt-12 pt-10 border-t border-slate-200">
+                        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                            <div class="h-12 w-12 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg uppercase shadow-inner flex-shrink-0">
+                                    {% if post.author.profile_img %}
+                                        <img src="{{ post.author.profile_img.url }}" alt="{{ post.author }}" class="w-full h-full object-cover">
+                                    {% else %}
+                                        {{ post.author|slice:":1" }}
+                                    {% endif %}
+                                </div>
+                                <h3 class="text-base font-bold text-slate-900">Written by {{ post.author }}</h3>
+                                <p class="text-sm text-slate-500 mt-1">Publisher and technical content writer at DevBlog sharing thoughts, tutorials, and ecosystem updates.</p>
+                        </div>
+                    </section>
+                 </a>
 
             </div>
         {% empty %}

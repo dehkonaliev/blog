@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import CreateView
 from .models import CustomUser
@@ -27,7 +27,6 @@ class LoginView(View):
     
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
-<<<<<<< HEAD
         posts = Post.objects.filter(author=request.user)
         return render(request, 'profile.html', {'posts':posts})
 
@@ -52,7 +51,7 @@ class UserUpdateView(View):
         return render(request, 'update.html', {'form': form})
 
     def post(self, request):
-        form = UserUpdateForm(request.POST, instance=request.user)
+        form = UserUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return redirect('profile')
@@ -76,7 +75,14 @@ class UserDeleteView(LoginRequiredMixin, View):
         user.delete()
         return redirect('home')
 
-=======
         posts = Post.objects.filter(author=request.user).order_by('-id')
         return render(request, 'profile.html', {'posts':posts})
->>>>>>> origin
+    
+    
+class UserProfileView(View):
+    def get(self, request, username):
+        user = get_object_or_404(CustomUser, username=username)
+        posts = Post.objects.filter(author=user)
+        
+        return render(request, 'user-profile.html', {'user':user, 'posts':posts})
+        
