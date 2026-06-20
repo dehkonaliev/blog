@@ -10,7 +10,7 @@ class CreatePost(View):
         return render(request, 'create-post.html', {'form':form})
     
     def post(self, request):
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             posting = form.save(commit=False)
             posting.author = request.user
@@ -81,6 +81,17 @@ class PostUpdateView(View):
                     
         return render(request, 'post-update.html', {'form':form})
     
-class PostDeleteView(View):
-    pass
+class PostDeleteView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        post = get_object_or_404(Post, pk=pk)
+        if post.author == request.user:
+            post.delete()
+            return redirect('profile')
+        else:
+            return redirect('error_404')
+        
+        return redirect('post-detail', pk=post.pk)
+    
+def error_404(request):
+    return render(request, 'error_404.html')
 

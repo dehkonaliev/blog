@@ -24,6 +24,10 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
                         EDIT
                     </a>
+                    <form method="POST" action="{% url 'post-delete' post.pk %}">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
                     {% endif %}
 
                 {% endif %}
