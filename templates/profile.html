@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
-
-
-
 {% block content %}
+<h1>Profile</h1>
+
+
     <br>
     <a href="{% url 'create-post' %}">Create Post</a>
+    <a href="{% url 'user' %}">Update</a>
     <br>
     {{request.user.username}}
     {{request.user.password}}

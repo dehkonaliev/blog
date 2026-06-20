@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Haqiqatan ham "{{ user.username }}" akkauntini o'chirmoqchimisiz?</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" style="background-color: red; color: white;">
+            Ha, o'chirilsin
+        </button>
+        <a href="{% url 'profile' %}">
+            Yo'q, ortga qaytish
+        </a>
+    </form>
+{% endblock %}

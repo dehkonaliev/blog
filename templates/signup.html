@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="bg-gray-100 flex items-center justify-center min-h-screen px-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 w-full max-w-md">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-900 tracking-tight">Sign UP</h2>
+            <p class="text-sm text-gray-400 mt-2">Ma'lumotlarni to'ldirib, ro'yxatdan o'ting</p>
+        </div>
+
+        <form method="POST" class="django-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-lg shadow-indigo-100 transition duration-200 mt-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Saqlash
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<a href="{% url 'home' %}">Orqaga</a>
+{% endblock %}
