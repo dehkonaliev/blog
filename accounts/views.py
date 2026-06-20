@@ -27,6 +27,7 @@ class LoginView(View):
     
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
+<<<<<<< HEAD
         posts = Post.objects.filter(author=request.user)
         return render(request, 'profile.html', {'posts':posts})
 
@@ -75,3 +76,7 @@ class UserDeleteView(LoginRequiredMixin, View):
         user.delete()
         return redirect('home')
 
+=======
+        posts = Post.objects.filter(author=request.user).order_by('-id')
+        return render(request, 'profile.html', {'posts':posts})
+>>>>>>> origin
