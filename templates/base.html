@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}My Modern Blog{% endblock %}</title>
+    <title>{% block title %}NajotForbes{% endblock %}</title>
     <!-- Tailwind CSS for sleek, modern design -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -27,19 +27,22 @@
             <!-- Brand Logo -->
             <div class="flex-shrink-0">
                 <a href="{% url 'home' %}" class="text-xl font-bold tracking-tight text-indigo-600 hover:text-indigo-500 transition-colors">
-                    ✍️ DevBlog
+                    💎 NajotForbes
                 </a>
             </div>
 
-            <a href="{% url 'home' %}">Home</a>
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'profile' %}">Profile</a>
-                <a href="{% url 'logout' %}">Logout</a>
-                <a href="{% url 'user_delete' %}">Delete</a>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'signup' %}">SignUp</a>
-            {% endif %}
+            <!-- Desktop Navigation Links -->
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="{% url 'home' %}" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Home</a>
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Profile</a>
+                    <a href="{% url 'logout' %}" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Logout</a>
+                    <a href="{% url 'user_delete' %}" class="text-sm font-medium text-rose-600 hover:text-rose-500 transition-colors">Delete Account</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-sm font-medium text-slate-600 hover:text-indigo-600 transition-colors">Login</a>
+                    <a href="{% url 'signup' %}" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 transition-colors shadow-sm">Sign Up</a>
+                {% endif %}
+            </div>
 
             <!-- Mobile Menu Button -->
             <div class="md:hidden flex items-center">
@@ -66,9 +69,18 @@
                 <a href="{% url 'profile' %}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-indigo-600 transition-colors">
                     Profile
                 </a>
+                <a href="{% url 'logout' %}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-indigo-600 transition-colors">
+                    Logout
+                </a>
+                <a href="{% url 'user_delete' %}" class="block px-3 py-2 rounded-md text-base font-medium text-rose-600 hover:bg-rose-50 transition-colors">
+                    Delete Account
+                </a>
             {% else %}
-                <a href="{% url 'login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 text-center transition-colors">
+                <a href="{% url 'login' %}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-700 hover:bg-slate-50 hover:text-indigo-600 transition-colors">
                     Sign In
+                </a>
+                <a href="{% url 'signup' %}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 text-center transition-colors">
+                    Sign Up
                 </a>
             {% endif %}
         </div>
@@ -102,7 +114,7 @@
     <footer class="bg-white border-t border-slate-200 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p class="text-sm text-slate-500">
-                &copy; {% now "Y" %} DevBlog. All rights reserved.
+                &copy; {% now "Y" %} NajotForbes. All rights reserved.
             </p>
             <div class="flex space-x-6 text-sm text-slate-400">
                 <a href="#" class="hover:text-slate-500">Privacy Policy</a>
