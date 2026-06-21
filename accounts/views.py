@@ -1,3 +1,4 @@
+from http.client import HTTPResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
@@ -8,6 +9,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm,  UserUpdateForm, UserForm
 from posts.models import Post
+from .utils import send_test_email, send_test_email_login
+from django.contrib.auth import get_user_model
 
 
 class LoginView(View):
@@ -21,6 +24,7 @@ class LoginView(View):
         if form.is_valid():
             user = form.cleaned_data.get('user')
             login(request, user)
+            send_test_email_login(user.email)
             return redirect('home')
         
         return render(request, 'login.html', {'form':form})
@@ -41,8 +45,15 @@ class SignUpView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            send_test_email(user.email)
             return redirect('profile')
         return render(request, 'signup.html', {'form':form})
+
+
+
+
+
+
 
 
 class UserUpdateView(View):
@@ -86,3 +97,6 @@ class UserProfileView(View):
         
         return render(request, 'user-profile.html', {'user':user, 'posts':posts})
         
+
+
+
