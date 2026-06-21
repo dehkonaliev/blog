@@ -1,112 +1,138 @@
 {% extends 'base.html' %}
 
-{% block title %}Articles | DevBlog{% endblock %}
+{% block title %}NajotForbes - Feed{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto">
-    <!-- Navigation Bar -->
-    <div class="mb-8">
-        <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors group">
-            <svg class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-            </svg>
-            Back to articles
-        </a>
+<div class="max-w-4xl mx-auto space-y-8 py-4">
+
+    <!-- Header Section -->
+    <div class="mb-10 text-center md:text-left">
+        <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-100 to-indigo-300">
+            Latest Insights
+        </h1>
+        <p class="text-gray-400 mt-2 text-sm md:text-base">Discover outstanding articles, thoughts, and expertise from creators around the globe.</p>
     </div>
 
-    <!-- Loop through the posts list -->
-    <div class="space-y-16">
-        {% for post in posts %}
-            <div class="border-b border-slate-200 pb-16 last:border-b-0 last:pb-0">
-                <!-- Post Header Action Bar -->
-                <div class="mb-6 flex items-center justify-end">
-                    <!-- Quick Like Button -->
-                    <form method="POST" action="{% url 'like' post.pk %}" class="inline-block">
-                        {% csrf_token %}
-                        {% if request.user in post.users_who_liked.all or request.user in post.users_who_liked %}
-                            <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-full transition-colors">
-                                <svg class="h-4 w-4 fill-rose-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                                </svg>
-                                <span>Liked</span>
-                            </button>
-                        {% else %}
-                            <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-900 px-3 py-1.5 rounded-full transition-colors">
-                                <svg class="h-4 w-4 fill-none stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                </svg>
-                                <span>Like post</span>
-                            </button>
-                        {% endif %}
-                    </form>
-                </div>
-
-                <!-- Article Wrapper -->
-                <a href="{% url 'post-detail' post.pk %}">
-                    <!-- Header Meta -->
-                    <header class="mb-8">
-                        <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                            <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="font-medium">
-                                {{ post.created_at|date:"F d, Y" }}
-                            </time>
-                            <span class="text-slate-300">•</span>
-                            <span class="inline-flex items-center gap-1 font-semibold text-indigo-600">
-                                By {{ post.author }}
-                            </span>
-                        </div>
-                        
-                        <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl leading-tight">
-                            {{ post.title }}
-                        </h1>
-
-                        {% if post.desc %}
-                            <p class="mt-4 text-lg md:text-xl text-slate-500 font-normal leading-relaxed">
-                                {{ post.desc }}
-                            </p>
-                        {% endif %}
-                    </header>
-
-                    <!-- Featured Image (Optional check to prevent crashes) -->
-                    {% if post.image %}
-                        <div class="mb-10 overflow-hidden rounded-2xl aspect-[16/9] w-full bg-slate-100 border border-slate-200 shadow-sm">
-                            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="h-full w-full object-cover">
+    {% for post in posts %}
+    <article class="group relative bg-[#111726]/40 backdrop-blur-md border border-gray-800/80 hover:border-indigo-500/30 rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_30px_rgba(79,70,229,0.1)] flex flex-col justify-between">
+        
+        <!-- CARD TOP: Author Profile and Post Metadata -->
+        <div class="flex items-center justify-between mb-5 pb-5 border-b border-gray-800/60">
+            <div class="flex items-center gap-3">
+                <a href="{% url 'user-profile' post.author.username %}" class="relative flex-shrink-0 group/avatar">
+                    {% if post.author.profile_img %}
+                        <img src="{{ post.author.profile_img.url }}" alt="{{ post.author }}" class="w-11 h-11 rounded-full object-cover border-2 border-indigo-500/20 group-hover/avatar:border-indigo-400/80 transition-colors duration-200" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e1e2f/ffffff?text=Avatar';">
+                    {% else %}
+                        <div class="w-11 h-11 rounded-full bg-indigo-900/40 border border-indigo-500/30 flex items-center justify-center text-indigo-300 font-semibold text-sm">
+                            {{ post.author.username|slice:":1"|upper }}
                         </div>
                     {% endif %}
-
-                    <!-- Main Body Content -->
-                    <div class="prose prose-indigo max-w-none text-slate-700 leading-relaxed space-y-6 text-base md:text-lg">
-                        {{ post.body|linebreaks }}
-                    </div>
+                    <span class="absolute bottom-0 right-0 block h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-[#0B0F19]"></span>
                 </a>
-
-                <!-- Author & Social Footer Section -->
-                 <a href="{% url 'user-profile' post.author.username %}">
-                    <section class="mt-12 pt-10 border-t border-slate-200">
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                            <div class="h-12 w-12 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg uppercase shadow-inner flex-shrink-0">
-                                    {% if post.author.profile_img %}
-                                        <img src="{{ post.author.profile_img.url }}" alt="{{ post.author }}" class="w-full h-full object-cover">
-                                    {% else %}
-                                        {{ post.author|slice:":1" }}
-                                    {% endif %}
-                                </div>
-                                <h3 class="text-base font-bold text-slate-900">Written by {{ post.author }}</h3>
-                                <p class="text-sm text-slate-500 mt-1">Publisher and technical content writer at DevBlog sharing thoughts, tutorials, and ecosystem updates.</p>
-                        </div>
-                    </section>
-                 </a>
-
+                <div>
+                    <a href="{% url 'user-profile' post.author.username %}" class="block text-sm font-semibold text-gray-200 hover:text-indigo-400 transition-colors duration-200">
+                        {{ post.author }}
+                    </a>
+                    <span class="text-xs text-gray-400 font-medium">
+                        {{ post.created_at|date:"F d, Y" }}
+                    </span>
+                </div>
             </div>
-        {% empty %}
-            <!-- Fallback in case the list is empty -->
-            <div class="text-center py-16 px-4 bg-white rounded-2xl border border-slate-200">
-                <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+
+            <!-- Reading indicator or neat category block -->
+            <div class="text-xs px-2.5 py-1 rounded-full bg-gray-800/50 border border-gray-700/40 text-gray-400 font-medium tracking-wide">
+                Premium
+            </div>
+        </div>
+
+        <!-- CARD BODY: Dynamic Content Link -->
+        <a href="{% url 'post-detail' post.pk %}" class="block focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg">
+            
+            <!-- Post Title -->
+            <h2 class="text-xl md:text-2xl font-bold text-white group-hover:text-indigo-300 transition-colors duration-200 mb-3 leading-tight">
+                {{ post.title }}
+            </h2>
+
+            <!-- Post Subtitle/Description -->
+            {% if post.desc %}
+            <p class="text-gray-300 text-sm md:text-base leading-relaxed line-clamp-3 mb-4">
+                {{ post.desc }}
+            </p>
+            {% endif %}
+
+            <!-- Post Cover Image Block -->
+            {% if post.image %}
+            <div class="overflow-hidden rounded-xl bg-gray-900/60 border border-gray-800 mb-5 aspect-[16/9] max-h-[360px] flex items-center justify-center">
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover transform group-hover:scale-[1.01] transition-transform duration-500" loading="lazy" onerror="this.style.display='none';">
+            </div>
+            {% endif %}
+
+            <!-- Post Body Content Fragment -->
+            <div class="text-gray-400 text-sm leading-relaxed line-clamp-4 prose prose-invert max-w-none mb-6">
+                {{ post.body|linebreaks }}
+            </div>
+        </a>
+
+        <!-- CARD FOOTER: Actions and Metrics -->
+        <div class="flex items-center justify-between pt-4 border-t border-gray-800/40 mt-auto">
+            
+            <!-- Likes System Container -->
+            <div class="flex items-center gap-3">
+                {% if request.user.is_authenticated %}
+                <form method="POST" action="{% url 'like' post.pk %}" class="inline">
+                    {% csrf_token %}
+                    {% if request.user in post.users_who_liked.all or request.user in post.users_who_liked %}
+                        <!-- Liked Active State -->
+                        <button type="submit" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 active:scale-95 transition-all duration-200 text-xs font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-rose-500 animate-pulse">
+                                <path d="M11.645 20.91l-.007-.003-.003-.001a1.455 1.455 0 01-.527-.47L4.316 12.6C2.55 10.662 2.55 7.638 4.316 5.7L5.8 4.2C7.564 2.26 10.436 2.26 12.2 4.2l1.04 1.13 1.04-1.13c1.764-1.94 4.636-1.94 6.4 0l1.484 1.5c1.766 1.938 1.766 4.962 0 6.9l-6.8 7.84a1.455 1.455 0 01-.527.472l-.003.001-.007.003-.016.007a1.455 1.455 0 01-.98 0l-.016-.007z" />
+                            </svg>
+                            Liked
+                        </button>
+                    {% else %}
+                        <!-- Unliked Neutral State -->
+                        <button type="submit" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:text-rose-400 hover:border-rose-500/20 hover:bg-rose-500/5 active:scale-95 transition-all duration-200 text-xs font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                            </svg>
+                            Like
+                        </button>
+                    {% endif %}
+                </form>
+                {% else %}
+                <!-- Non-authenticated indicator -->
+                <div class="flex items-center gap-1.5 text-gray-400 text-xs">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-gray-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+                    </svg>
+                    <span>Likes</span>
+                </div>
+                {% endif %}
+
+                <!-- Engagement count badge -->
+                <span class="text-xs bg-indigo-900/30 text-indigo-300 font-bold px-2.5 py-1 rounded-md border border-indigo-500/20">
+                    {{ post.likes_count }} {{ post.likes_count|pluralize:"like,likes" }}
+                </span>
+            </div>
+
+            <!-- Read post chevron guide -->
+            <a href="{% url 'post-detail' post.pk %}" class="flex items-center gap-1 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors group-hover:translate-x-0.5 transform duration-200">
+                Read Full Story
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
                 </svg>
-                <h3 class="mt-4 text-base font-semibold text-slate-900">No details available</h3>
-                <p class="mt-2 text-sm text-slate-500">There are no articles currently queued for this request.</p>
-            </div>
-        {% endfor %}
+            </a>
+
+        </div>
+
+    </article>
+    {% empty %}
+    <div class="text-center py-16 bg-[#111726]/20 border border-gray-800/80 rounded-2xl">
+        <div class="text-4xl mb-3">📭</div>
+        <h3 class="text-lg font-bold text-gray-200">No stories yet</h3>
+        <p class="text-gray-400 text-sm mt-1 max-w-sm mx-auto">Check back shortly. Our community is preparing high quality publications.</p>
     </div>
+    {% endfor %}
+
 </div>
 {% endblock %}

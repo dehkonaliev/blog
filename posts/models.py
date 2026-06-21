@@ -23,6 +23,11 @@ class Post(models.Model):
         # Returns a list of user objects who liked this post
         return [like.user for like in self.likes.all()]
     
+    @property
+    def likes_count(self):
+        # Returns a list of user objects who liked this post
+        return len(self.likes.all())
+    
     def __str__(self):
         return self.title
     

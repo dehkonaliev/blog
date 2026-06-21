@@ -1,14 +1,47 @@
 {% extends 'base.html' %}
 
+{% block title %}Delete Account - NajotForbes{% endblock %}
+
 {% block content %}
-    <h2>Haqiqatan ham "{{ user.username }}" akkauntini o'chirmoqchimisiz?</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" style="background-color: red; color: white;">
-            Ha, o'chirilsin
-        </button>
-        <a href="{% url 'profile' %}">
-            Yo'q, ortga qaytish
-        </a>
-    </form>
+<div class="max-w-md mx-auto py-12 px-4 flex flex-col items-center justify-center min-h-[60vh] relative z-10">
+    
+    <div class="relative w-full bg-[#1c1216]/60 backdrop-blur-xl border border-rose-950/80 rounded-3xl p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden text-center">
+        
+        <!-- Subtle ruby background glow sphere -->
+        <div class="absolute -top-16 -right-16 w-40 h-40 bg-rose-500/10 rounded-full blur-[50px] pointer-events-none"></div>
+        <div class="absolute -bottom-16 -left-16 w-40 h-40 bg-red-500/5 rounded-full blur-[50px] pointer-events-none"></div>
+
+        <div class="mx-auto mb-6 w-20 h-20 bg-rose-500/10 border border-rose-500/20 rounded-full flex items-center justify-center text-rose-500 shadow-inner">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 animate-pulse">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+        </div>
+
+        <h2 class="text-xl md:text-2xl font-extrabold text-white tracking-tight leading-tight">
+            Are you sure you want to delete <span class="text-rose-400">"{{ user.username }}"</span>?
+        </h2>
+        
+        <p class="text-xs md:text-sm text-gray-400 mt-4 leading-relaxed">
+            This action is permanent and cannot be undone. All of your published articles, comments, and saved dashboard parameters will be destroyed.
+        </p>
+
+        <form method="POST" class="mt-8 space-y-4">
+            {% csrf_token %}
+            
+            <!-- Destructive Confirm Button -->
+            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-sm font-bold text-white bg-rose-600 hover:bg-rose-500 active:scale-[0.98] transition-all duration-200 shadow-[0_4px_15px_rgba(244,63,94,0.2)] hover:shadow-[0_4px_25px_rgba(244,63,94,0.4)]">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                </svg>
+                Yes, delete my account
+            </button>
+            
+            <!-- Safe Cancel Option -->
+            <a href="{% url 'profile' %}" class="block w-full text-center px-6 py-3.5 rounded-xl text-sm font-semibold text-gray-400 hover:text-white bg-gray-800/20 hover:bg-gray-850 border border-gray-800/80 hover:border-gray-700/80 transition-all duration-200">
+                Cancel and return
+            </a>
+        </form>
+
+    </div>
+</div>
 {% endblock %}

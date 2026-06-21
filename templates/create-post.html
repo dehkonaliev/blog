@@ -1,163 +1,163 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    {% if object %}Edit "{{ object.title }}"{% else %}Create New Post{% endif %} | DevBlog
-{% endblock %}
-
-{% block extra_head %}
-<style>
-    /* Global styles to automatically transform Django's raw {{ form.as_p }} elements */
-    #django-form p {
-        margin-bottom: 1.5rem;
-        display: flex;
-        flex-direction: column;
-    }
-    
-    #django-form label {
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #1e293b; /* slate-800 */
-        margin-bottom: 0.5rem;
-        display: inline-flex;
-        align-items: center;
-    }
-
-    #django-form input[type="text"],
-    #django-form input[type="url"],
-    #django-form input[type="email"],
-    #django-form select,
-    #django-form textarea {
-        width: 100%;
-        border-radius: 0.75rem;
-        border: 1px solid #e2e8f0; /* slate-200 */
-        padding: 0.75rem 1rem;
-        font-size: 0.875rem;
-        background-color: #f8fafc; /* slate-50 */
-        color: #0f172a; /* slate-900 */
-        transition: all 0.2s ease-in-out;
-    }
-
-    #django-form input[type="text"]:focus,
-    #django-form input[type="url"]:focus,
-    #django-form input[type="email"]:focus,
-    #django-form select:focus,
-    #django-form textarea:focus {
-        outline: none;
-        border-color: #4f46e5; /* indigo-600 */
-        background-color: #ffffff;
-        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-    }
-
-    #django-form textarea {
-        min-height: 150px;
-        resize: vertical;
-    }
-
-    /* Style the dynamic file upload field beautifully */
-    #django-form input[type="file"] {
-        font-size: 0.875rem;
-        color: #64748b; /* slate-500 */
-        padding: 0.5rem 0;
-    }
-
-    #django-form input[type="file"]::file-selector-button {
-        background-color: #4f46e5; /* indigo-600 */
-        color: #ffffff;
-        font-weight: 600;
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        margin-right: 1rem;
-        transition: background-color 0.2s ease;
-    }
-
-    #django-form input[type="file"]::file-selector-button:hover {
-        background-color: #4338ca; /* indigo-700 */
-    }
-
-    /* Django form errors list styling */
-    #django-form .errorlist {
-        background-color: #fef2f2;
-        border: 1px solid #fee2e2;
-        color: #b91c1c;
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-        margin-bottom: 1rem;
-        font-size: 0.875rem;
-        list-style-type: none;
-    }
-
-    /* Form help texts styling */
-    #django-form .helptext {
-        font-size: 0.75rem;
-        color: #64748b; /* slate-500 */
-        margin-top: 0.375rem;
-    }
-
-    /* Support Checkboxes nicely */
-    #django-form input[type="checkbox"] {
-        height: 1rem;
-        width: 1rem;
-        border-radius: 0.25rem;
-        border-color: #cbd5e1;
-        color: #4f46e5;
-        focus:ring-indigo-500;
-        margin-right: 0.5rem;
-    }
-</style>
-{% endblock %}
+{% block title %}Create New Publication - NajotForbes{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto">
-    <!-- Back Navigation Link -->
-    <div class="mb-8">
-        <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-colors group">
-            <svg class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+<div class="max-w-2xl mx-auto py-8">
+    
+    <!-- Top Return Anchor -->
+    <div class="mb-6">
+        <a href="{% url 'home' %}" class="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors group">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
             </svg>
             Cancel and return
         </a>
     </div>
 
-    <!-- Main Card Body -->
-    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-10">
-        <!-- Section Header -->
-        <div class="mb-8 pb-6 border-b border-slate-100">
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-                {% if object %}Modify Article{% else %}Compose Article{% endif %}
-            </h1>
-            <p class="mt-2 text-sm text-slate-500">
-                {% if object %}Update the fields below to edit your published blog post.{% else %}Share your knowledge, findings, or technical updates with our dev community.{% endif %}
+    <!-- Main Creation Form Card -->
+    <div class="relative bg-[#111726]/60 backdrop-blur-xl border border-gray-800/80 rounded-3xl p-6 md:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] overflow-hidden">
+        
+        <!-- Subtle back glowing sphere -->
+        <div class="absolute -top-12 -right-12 w-48 h-48 bg-indigo-500/10 rounded-full blur-[60px] pointer-events-none"></div>
+
+        <!-- Form Header Area -->
+        <div class="mb-8 relative z-10">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                Publish a New Story
+            </h2>
+            <p class="text-gray-400 text-xs md:text-sm mt-1">
+                Share your unique perspective, analysis, and ideas with the NajotForbes community.
             </p>
         </div>
 
-        <!-- Form Submission -->
-        <form id="django-form" method="POST" enctype="multipart/form-data" class="space-y-6">
+        <!-- Internal styling injection to map raw Django form fields to Dark Premium Theme UI -->
+        <style>
+            .django-create-form p {
+                margin-bottom: 1.5rem;
+            }
+            .django-create-form label {
+                display: block;
+                font-size: 0.875rem;
+                font-weight: 600;
+                color: #e5e7eb; /* gray-200 */
+                margin-bottom: 0.5rem;
+            }
+            /* Universal input field styling */
+            .django-create-form input[type="text"],
+            .django-create-form input[type="email"],
+            .django-create-form input[type="password"],
+            .django-create-form input[type="url"],
+            .django-create-form input[type="number"],
+            .django-create-form textarea,
+            .django-create-form select {
+                width: 100%;
+                background-color: rgba(17, 24, 39, 0.6);
+                border: 1px solid rgba(75, 85, 99, 0.4);
+                border-radius: 1rem;
+                padding: 0.875rem 1.25rem;
+                color: #f3f4f6;
+                font-size: 0.95rem;
+                line-height: 1.5;
+                transition: all 0.25s ease;
+            }
+            .django-create-form input[type="text"]:focus,
+            .django-create-form textarea:focus,
+            .django-create-form select:focus {
+                outline: none;
+                border-color: #6366f1; /* Indigo focus border */
+                box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+                background-color: rgba(17, 24, 39, 0.8);
+            }
+            /* Clean placeholder styling */
+            .django-create-form ::placeholder {
+                color: #6b7280;
+            }
+            /* Custom styled File selector layout */
+            .django-create-form input[type="file"] {
+                display: block;
+                width: 100%;
+                font-size: 0.875rem;
+                color: #9ca3af;
+                background: rgba(17, 24, 39, 0.4);
+                border: 1.5px dashed rgba(75, 85, 99, 0.6);
+                padding: 0.75rem 1rem;
+                border-radius: 1rem;
+                cursor: pointer;
+                transition: all 0.25s;
+            }
+            .django-create-form input[type="file"]:hover {
+                border-color: rgba(99, 102, 241, 0.5);
+                background: rgba(17, 24, 39, 0.6);
+            }
+            .django-create-form input[type="file"]::file-selector-button {
+                margin-right: 1rem;
+                border: 0;
+                background: #4f46e5;
+                padding: 0.4rem 0.875rem;
+                border-radius: 0.5rem;
+                color: #ffffff;
+                cursor: pointer;
+                font-weight: 600;
+                transition: background 0.2s;
+            }
+            .django-create-form input[type="file"]::file-selector-button:hover {
+                background: #4338ca;
+            }
+            /* Checkbox UI */
+            .django-create-form input[type="checkbox"] {
+                width: 1.25rem;
+                height: 1.25rem;
+                border-radius: 0.375rem;
+                background-color: rgba(17, 24, 39, 0.6);
+                border: 1px solid rgba(75, 85, 99, 0.4);
+                accent-color: #6366f1;
+                cursor: pointer;
+                vertical-align: middle;
+            }
+            /* Error List Display inside Django fields */
+            .django-create-form .errorlist {
+                background: rgba(239, 68, 68, 0.1);
+                border: 1px solid rgba(239, 68, 68, 0.2);
+                border-radius: 0.75rem;
+                padding: 0.5rem 1rem;
+                margin-bottom: 0.75rem;
+                color: #f87171;
+                font-size: 0.825rem;
+                list-style-type: none;
+            }
+            .django-create-form .helptext {
+                display: block;
+                font-size: 0.75rem;
+                color: #6b7280;
+                margin-top: 0.35rem;
+            }
+        </style>
+
+        <form method="POST" enctype="multipart/form-data" class="django-create-form relative z-10">
             {% csrf_token %}
+            
+            <!-- Django Form Output wrapper -->
+            {{ form.as_p }}
 
-            <!-- Form Global Errors -->
-            {% if form.non_field_errors %}
-                <div class="p-4 bg-rose-50 border border-rose-100 rounded-xl text-rose-800 text-sm mb-6">
-                    {{ form.non_field_errors }}
-                </div>
-            {% endif %}
-
-            <!-- Dynamic Render Area -->
-            <div class="space-y-4">
-                {{ form.as_p }}
-            </div>
-
-            <!-- Form Actions -->
-            <div class="pt-6 border-t border-slate-100 flex items-center justify-end gap-x-4">
-                <a href="{% url 'home' %}" class="px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50 rounded-lg transition-colors">
-                    Discard changes
+            <!-- Form Action Triggers -->
+            <div class="mt-8 pt-6 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-end gap-3">
+                
+                <!-- Cancel Link -->
+                <a href="{% url 'profile' %}" class="w-full sm:w-auto text-center px-6 py-3 rounded-xl text-sm font-semibold text-gray-400 hover:text-white bg-transparent border border-gray-800/80 hover:bg-gray-800/40 transition-all duration-200">
+                    Cancel
                 </a>
-                <button type="submit" class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-lg text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors shadow-sm">
-                    {% if object %}Save Updates{% else %}Publish Article{% endif %}
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] transition-all duration-200 shadow-[0_4px_15px_rgba(79,70,229,0.2)] hover:shadow-[0_4px_20px_rgba(79,70,229,0.4)]">
+                    Create Story
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
                 </button>
             </div>
         </form>
+
     </div>
 </div>
 {% endblock %}

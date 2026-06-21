@@ -1,213 +1,212 @@
 {% extends 'base.html' %}
 
-    
+{% block title %}{% if request.user.username %}{{ request.user.username }}{% else %}Writer{% endif %}'s Profile - NajotForbes{% endblock %}
 
 {% block content %}
-<!-- Include Tailwind CSS via CDN for instant utility styling and preview compatibility -->
-<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-<div class="min-h-screen bg-slate-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
+<div class="max-w-6xl mx-auto py-4">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <!-- Enhanced Premium Profile Header - Resolves issues shown in image_2c0669.png -->
-        <div class="bg-white rounded-3xl border border-slate-150 overflow-hidden shadow-sm mb-12">
-            <!-- Sophisticated Gradient Banner -->
-            <div class="h-40 bg-gradient-to-r from-slate-900 via-indigo-950 to-purple-900 relative">
-                <!-- Decorative subtle mesh effect -->
-                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            </div>
-            
-            <div class="px-8 pb-8 relative">
-                <!-- Avatar and Primary Action Row (Overlapping the Banner) -->
-                <div class="flex flex-col sm:flex-row sm:items-end justify-between -mt-16 mb-6 gap-6">
-                    <!-- Crisp Circular Avatar -->
-                    <div class="h-32 w-32 rounded-full bg-white p-1.5 shadow-lg flex-shrink-0 z-10">
-                        <div class="h-full w-full rounded-full overflow-hidden bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white text-4xl font-black uppercase tracking-wider">
+        <!-- LEFT PANEL: Dynamic Profile Card Dashboard -->
+        <div class="lg:col-span-4 sticky top-24 space-y-6">
+            <div class="relative overflow-hidden bg-[#111726]/40 backdrop-blur-md border border-gray-800/80 rounded-2xl p-6 md:p-8 shadow-[0_4px_30px_rgba(0,0,0,0.3)] hover:border-indigo-500/20 transition-all duration-300">
+                <!-- Decorative background pulse -->
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl"></div>
+
+                <div class="flex flex-col items-center text-center">
+                    <!-- Profile Avatar Block -->
+                    <div class="relative group/profile-img mb-5">
+                        <div class="absolute -inset-1 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 opacity-75 blur-sm group-hover/profile-img:opacity-100 transition duration-300"></div>
+                        <div class="relative">
                             {% if request.user.profile_img %}
-                                <img src="{{ request.user.profile_img.url }}" alt="{{ request.user.username }}" class="w-full h-full object-cover rounded-full">
+                                <img src="{{ request.user.profile_img.url }}" alt="{{ request.user.username }}" class="w-24 h-24 rounded-full object-cover border-4 border-[#0B0F19] shadow-inner" onerror="this.onerror=null; this.src='https://placehold.co/150x150/1e1e2f/ffffff?text=Avatar';">
                             {% else %}
-                                {% if request.user.username %}
-                                    {{ request.user.username|slice:":2" }}
-                                {% else %}
-                                    WR
-                                {% endif %}
+                                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-950 to-slate-900 border-4 border-[#0B0F19] flex items-center justify-center text-indigo-300 font-extrabold text-2xl tracking-wide uppercase">
+                                    {% if request.user.username %}
+                                        {{ request.user.username|slice:":2" }}
+                                    {% else %}
+                                        WR
+                                    {% endif %}
+                                </div>
                             {% endif %}
                         </div>
-
-                        <a href="{% url 'user' %}">Update Profile</a>
+                        <span class="absolute bottom-1 right-1 block h-4 w-4 rounded-full bg-emerald-500 ring-4 ring-[#0B0F19]"></span>
                     </div>
 
-                    <!-- Clean Primary Action Button -->
-                    <div class="flex items-center gap-3">
-                        <a href="{% url 'create-post' %}" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-95 shadow-md shadow-indigo-100 hover:shadow-lg transition-all duration-150">
-                            <i class="fas fa-plus text-xs"></i> Create Post
+                    <!-- User Meta details -->
+                    <h2 class="text-xl md:text-2xl font-bold text-white tracking-tight">
+                        {% if request.user.username %}{{ request.user.username }}{% else %}Writer{% endif %}
+                    </h2>
+                    
+                    <p class="text-xs text-indigo-400 font-medium tracking-wider uppercase mt-1">Creator Profile</p>
+                    
+                    <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-xs text-gray-400">
+                        <span class="flex items-center gap-1 bg-gray-800/40 px-2.5 py-1 rounded-full border border-gray-800/80">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-indigo-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                            </svg>
+                            Joined {{ request.user.date_joined|date:"F Y"|default:"June 2026" }}
+                        </span>
+                    </div>
+
+                    <!-- Statistics Bar -->
+                    <div class="w-full grid grid-cols-1 gap-2 mt-6 py-4 px-2 rounded-xl bg-gray-900/30 border border-gray-800/40">
+                        <div class="text-center">
+                            <span class="block text-2xl font-black text-white">
+                                {% if posts %}{{ posts|length }}{% else %}0{% endif %}
+                            </span>
+                            <span class="text-[10px] uppercase tracking-widest font-bold text-gray-500">Publications</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Navigation Group -->
+                    <div class="w-full space-y-3 mt-6">
+                        <a href="{% url 'create-post' %}" class="flex items-center justify-center gap-2 w-full px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] transition-all duration-200 shadow-[0_0_15px_rgba(79,70,229,0.3)] hover:shadow-[0_0_20px_rgba(79,70,229,0.5)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+                            Create Post
+                        </a>
+                        <a href="{% url 'user' %}" class="flex items-center justify-center gap-2 w-full px-4 py-2.5 mb-20 rounded-xl text-sm font-semibold text-gray-300 hover:text-white bg-gray-800/40 border border-gray-700/50 hover:bg-gray-850/60 active:scale-[0.98] transition-all duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-indigo-400">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                            </svg>
+                            Update Profile
+                        </a>
+                        <a href="{% url 'user_delete' %}" class="flex p-3 items-center justify-center gap-2 w-full transition-all duration-200 rounded-lg text-sm font-medium text-red-500/70 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 border border-transparent hover:border-red-500/20">
+                            Delete Account
                         </a>
                     </div>
                 </div>
-
-                <!-- Structured User Info Block -->
-                <div class="space-y-3 mb-8">
-                    <div class="flex flex-wrap items-center gap-3">
-                        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight leading-none">
-                            {% if request.user.username %}{{ request.user.username }}{% else %}Writer{% endif %}
-                        </h1>
-                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-600 border border-indigo-100">
-                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse"></span>
-                            Author
-                        </span>
-                    </div>
-                    
-                    <p class="text-sm text-slate-500 flex items-center gap-2">
-                        <i class="far fa-calendar-alt text-slate-400"></i>
-                        Member since {{ request.user.date_joined|date:"F Y"|default:"June 2026" }}
-                    </p>
-                </div>
-
-                <!-- Sleek Minimalist Stats Section -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
-                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-slate-100/75 transition-colors duration-150">
-                        <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
-                            <i class="far fa-file-alt text-xl"></i>
-                        </div>
-                        <div>
-                            <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest">Articles</span>
-                            <span class="text-xl font-extrabold text-slate-900 leading-tight">{% if posts %}{{ posts|length }}{% else %}4{% endif %}</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-slate-100/75 transition-colors duration-150">
-                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl">
-                            <i class="far fa-heart text-xl"></i>
-                        </div>
-                        <div>
-                            <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest">Social Feed</span>
-                            <span class="text-xl font-extrabold text-slate-900 leading-tight">Active</span>
-                        </div>
-                    </div>
-
-                    <div class="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 hover:bg-slate-100/75 transition-colors duration-150">
-                        <div class="p-3 bg-purple-50 text-purple-600 rounded-xl">
-                            <i class="fas fa-shield-alt text-xl"></i>
-                        </div>
-                        <div>
-                            <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-widest">Security</span>
-                            <span class="text-sm font-bold text-purple-600 leading-tight">Protected</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
-        <!-- Content Divider and Section Title -->
-        <div class="flex items-center justify-between mb-10 border-b border-slate-200 pb-4">
-            <h2 class="text-2xl font-extrabold text-slate-900 flex items-center gap-2.5">
-                <i class="far fa-newspaper text-indigo-600"></i> Publication History
-            </h2>
-            <span class="px-3 py-1 rounded-full text-xs font-bold text-slate-500 bg-slate-100 uppercase tracking-wider">
-                {% if posts %}{{ posts|length }} posts{% else %}4 posts{% endif %}
-            </span>
-        </div>
+        <!-- RIGHT PANEL: Feed of User's Own Posts -->
+        <div class="lg:col-span-8 space-y-6">
+            <div class="flex items-center justify-between border-b border-gray-800/60 pb-4 mb-2">
+                <h3 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-indigo-500 animate-pulse"></span>
+                    Your Publications
+                </h3>
+                <span class="text-xs text-gray-500">Managing {% if posts %}{{ posts|length }} items{% else %}0 items{% endif %}</span>
+            </div>
 
-        <!-- Main Article Container -->
-        <div class="space-y-16">
             {% for post in posts %}
-                <div class="border-b border-slate-200 pb-16 last:border-b-0 last:pb-0">
-                    <!-- Post Header Action Bar -->
-                    <div class="mb-6 flex items-center justify-end">
-                        <!-- Quick Like Button -->
-                        <form method="POST" action="{% url 'like' post.pk %}" class="inline-block">
+            <article class="group relative bg-[#111726]/40 backdrop-blur-md border border-gray-800/80 hover:border-indigo-500/30 rounded-2xl p-6 md:p-8 transition-all duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.2)] hover:shadow-[0_10px_30px_rgba(79,70,229,0.1)] flex flex-col justify-between">
+                
+                <!-- Card Header (Post Author / Date Info) -->
+                <div class="flex items-center justify-between mb-5 pb-5 border-b border-gray-800/60">
+                    <div class="flex items-center gap-3">
+                        <div class="relative flex-shrink-0">
+                            {% if request.user.profile_img %}
+                                <img src="{{ request.user.profile_img.url }}" alt="{{ post.author }}" class="w-10 h-10 rounded-full object-cover border-2 border-indigo-500/20" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e1e2f/ffffff?text=Avatar';">
+                            {% else %}
+                                <div class="w-10 h-10 rounded-full bg-indigo-900/40 border border-indigo-500/30 flex items-center justify-center text-indigo-300 font-semibold text-xs">
+                                    {{ request.user.username|slice:":1"|upper }}
+                                </div>
+                            {% endif %}
+                            <span class="absolute bottom-0 right-0 block h-2 w-2 rounded-full bg-emerald-500 ring-2 ring-[#0B0F19]"></span>
+                        </div>
+                        <div>
+                            <span class="block text-xs font-semibold text-gray-200">
+                                {{ post.author }}
+                            </span>
+                            <span class="text-[10px] text-gray-400 font-medium">
+                                {{ post.created_at|date:"F d, Y" }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="text-[10px] px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-bold tracking-wide uppercase">
+                        Published
+                    </div>
+                </div>
+
+                <!-- Card Body Details Block -->
+                <a href="{% url 'post-detail' post.pk %}" class="block focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg">
+                    <!-- Post Title -->
+                    <h4 class="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors duration-200 mb-2 leading-tight">
+                        {{ post.title }}
+                    </h4>
+
+                    <!-- Post Description -->
+                    {% if post.desc %}
+                    <p class="text-gray-300 text-sm leading-relaxed mb-4 line-clamp-2">
+                        {{ post.desc }}
+                    </p>
+                    {% endif %}
+
+                    <!-- Post Cover Image Block -->
+                    {% if post.image %}
+                    <div class="overflow-hidden rounded-xl bg-gray-900/60 border border-gray-800 mb-5 aspect-[16/9] max-h-[300px] flex items-center justify-center">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover transform group-hover:scale-[1.01] transition-transform duration-500" loading="lazy" onerror="this.style.display='none';">
+                    </div>
+                    {% endif %}
+
+                    <!-- Post Body Preview -->
+                    <div class="text-gray-400 text-sm leading-relaxed line-clamp-3 prose prose-invert max-w-none mb-6">
+                        {{ post.body|linebreaks }}
+                    </div>
+                </a>
+
+                <!-- Card Footer Actions (Like System / View Detail Anchor) -->
+                <div class="flex items-center justify-between pt-4 border-t border-gray-800/40 mt-auto">
+                    
+                    <div class="flex items-center gap-3">
+                        {% if request.user.is_authenticated %}
+                        <form method="POST" action="{% url 'like' post.pk %}" class="inline">
                             {% csrf_token %}
                             {% if request.user in post.users_who_liked.all or request.user in post.users_who_liked %}
-                                <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-full transition-colors">
-                                    <svg class="h-4 w-4 fill-rose-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                <!-- Liked Button Active State -->
+                                <button type="submit" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 active:scale-95 transition-all duration-200 text-xs font-semibold">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-rose-500 animate-pulse">
+                                        <path d="M11.645 20.91l-.007-.003-.003-.001a1.455 1.455 0 01-.527-.47L4.316 12.6C2.55 10.662 2.55 7.638 4.316 5.7L5.8 4.2C7.564 2.26 10.436 2.26 12.2 4.2l1.04 1.13 1.04-1.13c1.764-1.94 4.636-1.94 6.4 0l1.484 1.5c1.766 1.938 1.766 4.962 0 6.9l-6.8 7.84a1.455 1.455 0 01-.527.472l-.003.001-.007.003-.016.007a1.455 1.455 0 01-.98 0l-.016-.007z" />
                                     </svg>
-                                    <span>Liked</span>
+                                    Liked
                                 </button>
                             {% else %}
-                                <button type="submit" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-900 px-3 py-1.5 rounded-full transition-colors">
-                                    <svg class="h-4 w-4 fill-none stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                <!-- Unliked Button Neutral State -->
+                                <button type="submit" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:text-rose-400 hover:border-rose-500/20 hover:bg-rose-500/5 active:scale-95 transition-all duration-200 text-xs font-medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                                     </svg>
-                                    <span>Like post</span>
+                                    Like
                                 </button>
                             {% endif %}
                         </form>
-                    </div>
-
-                    <!-- Article Wrapper -->
-                    <a href="{% url 'post-detail' post.pk %}">
-                        <!-- Header Meta -->
-                        <header class="mb-8">
-                            <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                                <time datetime="{{ post.created_at|date:'Y-m-d' }}" class="font-medium">
-                                    {{ post.created_at|date:"F d, Y" }}
-                                </time>
-                                <span class="text-slate-300">•</span>
-                                <span class="inline-flex items-center gap-1 font-semibold text-indigo-600">
-                                    By {{ post.author }}
-                                </span>
-                            </div>
-                            
-                            <h1 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl md:text-5xl leading-tight">
-                                {{ post.title }}
-                            </h1>
-
-                            {% if post.desc %}
-                                <p class="mt-4 text-lg md:text-xl text-slate-500 font-normal leading-relaxed">
-                                    {{ post.desc }}
-                                </p>
-                            {% endif %}
-                        </header>
-
-                        <!-- Featured Image (Optional check to prevent crashes) -->
-                        {% if post.image %}
-                            <div class="mb-10 overflow-hidden rounded-2xl aspect-[16/9] w-full bg-slate-100 border border-slate-200 shadow-sm">
-                                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="h-full w-full object-cover">
-                            </div>
                         {% endif %}
 
-                        <!-- Main Body Content -->
-                        <div class="prose prose-indigo max-w-none text-slate-700 leading-relaxed space-y-6 text-base md:text-lg">
-                            {{ post.body|linebreaks }}
-                        </div>
+                        <!-- Liked Counter Badge -->
+                        <span class="text-xs bg-indigo-900/30 text-indigo-300 font-bold px-2.5 py-1 rounded-md border border-indigo-500/20">
+                            {{ post.likes_count }} {{ post.likes_count|pluralize:"like,likes" }}
+                        </span>
+                    </div>
+
+                    <a href="{% url 'post-detail' post.pk %}" class="flex items-center gap-1 text-xs font-semibold text-indigo-400 hover:text-indigo-300 transition-colors group-hover:translate-x-0.5 transform duration-200">
+                        View Article
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                        </svg>
                     </a>
 
-                    <!-- Author & Social Footer Section -->
-                    <section class="mt-12 pt-10 border-t border-slate-200">
-                        <div class="bg-white rounded-2xl border border-slate-200 p-6 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                            <div class="h-12 w-12 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg uppercase shadow-inner flex-shrink-0">
-                                {% if request.user.profile_img %}
-                                    <img src="{{ request.user.profile_img.url }}" alt="{{ post.author }}" class="w-full h-full object-cover">
-                                {% else %}
-                                    {{ post.author|slice:":1" }}
-                                {% endif %}
-                            </div>
-                            <div class="flex-grow">
-                                <h3 class="text-base font-bold text-slate-900">Written by {{ post.author }}</h3>
-                                <p class="text-sm text-slate-500 mt-1">Publisher and technical content writer sharing thoughts, tutorials, and ecosystem updates.</p>
-                            </div>
-                        </div>
-                    </section>
+                </div>
 
-                </div>
+            </article>
             {% empty %}
-                <!-- Fallback in case the list is empty -->
-                <div class="text-center py-16 px-4 bg-white rounded-2xl border border-slate-200">
-                    <svg class="mx-auto h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            <div class="text-center py-20 bg-[#111726]/20 border border-gray-800/80 rounded-2xl p-6 shadow-inner relative overflow-hidden">
+                <div class="absolute -top-10 -left-10 w-40 h-40 bg-purple-500/5 rounded-full blur-3xl"></div>
+                <div class="text-5xl mb-4">✍️</div>
+                <h4 class="text-xl font-bold text-gray-200">No publications found</h4>
+                <p class="text-gray-400 text-sm mt-2 max-w-sm mx-auto mb-6">You haven't written any thoughts yet. Join our ecosystem of visionaries by telling your stories!</p>
+                <a href="{% url 'create-post' %}" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg shadow-indigo-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200">
+                    Write Your First Post
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
                     </svg>
-                    <h3 class="mt-4 text-base font-semibold text-slate-900">No publications yet</h3>
-                    <p class="mt-2 text-sm text-slate-500">There are no articles currently published by this creator.</p>
-                    <div class="mt-6">
-                        <a href="{% url 'create-post' %}" class="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-4 py-2 rounded-xl transition-all">
-                            Write Your First Post
-                        </a>
-                    </div>
-                </div>
+                </a>
+            </div>
             {% endfor %}
         </div>
+
     </div>
 </div>
 {% endblock %}

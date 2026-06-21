@@ -1,189 +1,258 @@
 {% extends 'base.html' %}
 
+{% block title %}{{ post.title|default:"Article" }} - NajotForbes{% endblock %}
+
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 py-8">
-    <!-- Post Kartasi -->
-    <article class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mb-8">
-        <!-- Post Rasmi -->
-        {% if post.image %}
-            <div class="w-full max-h-[450px] overflow-hidden">
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-full object-cover">
-            </div>
-        {% endif %}
+<div class="max-w-4xl mx-auto py-8">
+    
+    <!-- Main Article Card -->
+    <article class="relative bg-[#111726]/60 backdrop-blur-xl border border-gray-800/80 rounded-3xl p-6 md:p-10 shadow-[0_8px_30px_rgba(0,0,0,0.4)] overflow-hidden">
+        
+        <!-- Decorative subtle background glow -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-500/5 rounded-full blur-[80px] pointer-events-none"></div>
 
-        <div class="p-6 md:p-8">
-            <!-- Kategoriya va Sana -->
-            <div class="flex items-center justify-between mb-4">
+        <header class="mb-10 relative z-10">
+            <!-- Top Meta Row: Category and Author Actions -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+                
+                <!-- Category Badge -->
                 {% if post.category %}
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600">
-                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-                        {{ post.category }}
-                    </span>
-                    {% if request.user == post.author %}
-                    <a href="{% url 'post-update' post.pk %}" class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-600">
-                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-600"></span>
-                        EDIT
-                    </a>
-                    <form method="POST" action="{% url 'post-delete' post.pk %}">
-                        {% csrf_token %}
-                        <button type="submit">Delete</button>
-                    </form>
-                    {% endif %}
-
+                <div class="inline-flex items-center text-xs px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 font-bold tracking-wide uppercase shadow-inner">
+                    <span class="w-1.5 h-1.5 bg-indigo-400 rounded-full mr-2 animate-pulse"></span>
+                    {{ post.category }}
+                </div>
                 {% endif %}
-                <span class="text-xs text-slate-400">
-                    <svg class="h-3.5 w-3.5 inline mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    {{ post.created_at|date:"d.m.Y" }}
-                </span>
+
+                <!-- Edit / Delete Actions (Only for Author) -->
+                {% if request.user == post.author %}
+                <div class="flex items-center gap-3">
+                    <a href="{% url 'post-update' post.pk %}" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:text-white hover:bg-gray-700 transition-all text-xs font-semibold">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                        </svg>
+                        Edit
+                    </a>
+                    <form method="POST" action="{% url 'post-delete' post.pk %}" class="inline-block m-0" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                        {% csrf_token %}
+                        <button type="submit" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 hover:text-white hover:bg-red-500/80 transition-all text-xs font-semibold">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                            </svg>
+                            Delete
+                        </button>
+                    </form>
+                </div>
+                {% endif %}
             </div>
 
-            <!-- Sarlavha -->
-            <h1 class="text-2xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight">
+            <!-- Title -->
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.15] mb-6 drop-shadow-md">
                 {{ post.title }}
             </h1>
 
-            <!-- Muallif haqida ma'lumot -->
-            <div class="flex items-center gap-3 mb-6 pb-6 border-b border-slate-100">
-                <div class="h-12 w-12 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg uppercase shadow-inner flex-shrink-0">
-                    {% if post.author.profile_img %}
-                        <img src="{{ post.author.profile_img.url }}" alt="{{ post.author }}" class="w-full h-full object-cover">
-                    {% else %}
-                        {{ post.author|slice:":1" }}
-                    {% endif %}
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-slate-800">{{ post.author.get_full_name|default:post.author.username }}</p>
-                    <p class="text-xs text-slate-500">Muallif</p>
-                </div>
-            </div>
+            <!-- Author Information Row -->
+            <div class="flex items-center justify-between border-y border-gray-800/60 py-4 mt-6">
+                <a href="{% url 'user-profile' post.author.username %}" class="flex items-center gap-3 group">
+                    <div class="relative flex-shrink-0">
+                        {% if post.author.profile_img %}
+                            <img src="{{ post.author.profile_img.url }}" alt="{{ post.author }}" class="w-12 h-12 rounded-full object-cover border-2 border-indigo-500/30 group-hover:border-indigo-400 transition-colors duration-200" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e1e2f/ffffff?text={{ post.author.username|slice:":1"|upper }}';">
+                        {% else %}
+                            <div class="w-12 h-12 rounded-full bg-indigo-900/50 border-2 border-indigo-500/30 flex items-center justify-center text-indigo-300 font-bold text-lg group-hover:border-indigo-400 transition-colors duration-200">
+                                {{ post.author.username|slice:":1"|upper }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <span class="block text-sm font-bold text-gray-200 group-hover:text-indigo-300 transition-colors duration-200">
+                            {{ post.author.get_full_name|default:post.author.username }}
+                        </span>
+                        <span class="text-xs text-gray-400 font-medium tracking-wide">
+                            Published on {{ post.created_at|date:"M d, Y" }}
+                        </span>
+                    </div>
+                </a>
 
-            <!-- Post Qisqacha Tavsifi -->
+                <!-- Share button (Optional UI element) -->
+                <button onclick="navigator.clipboard.writeText(window.location.href); alert('Link copied!');" class="p-2 rounded-full bg-gray-800/40 text-gray-400 hover:text-white hover:bg-gray-800/80 transition-all border border-transparent hover:border-gray-700" title="Copy Link">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        {% if post.image %}
+        <figure class="mb-10 w-full rounded-2xl overflow-hidden bg-[#0B0F19] border border-gray-800/80 shadow-lg relative z-10">
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-auto object-cover max-h-[500px]" loading="lazy">
+        </figure>
+        {% endif %}
+
+        <div class="relative z-10">
             {% if post.desc %}
-                <p class="text-lg text-slate-600 font-medium italic mb-6 leading-relaxed border-l-4 border-indigo-500 pl-4 bg-slate-50 py-2">
-                    {{ post.desc }}
-                </p>
+            <p class="text-xl md:text-2xl font-light text-gray-300 leading-relaxed mb-8 border-l-4 border-indigo-500 pl-6 py-1 italic">
+                {{ post.desc }}
+            </p>
             {% endif %}
 
-            <!-- Post Matni (Body) -->
-            <div class="prose max-w-none text-slate-700 leading-relaxed mb-8">
+            <!-- Article Body -->
+            <div class="text-gray-300 text-base md:text-lg leading-[1.8] space-y-6 prose prose-invert prose-indigo max-w-none prose-img:rounded-xl prose-a:text-indigo-400 hover:prose-a:text-indigo-300">
                 {{ post.body|linebreaks }}
             </div>
+        </div>
 
-            <!-- Like va Ulashish Bo'limi -->
-            <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                <form method="POST" action="{% url 'like' post.pk %}" class="inline-block">
+        <div class="mt-12 py-6 border-y border-gray-800/60 flex items-center justify-between relative z-10">
+            
+            <div class="flex items-center gap-4">
+                {% if request.user.is_authenticated %}
+                <form method="POST" action="{% url 'like' post.pk %}" class="inline-block m-0">
                     {% csrf_token %}
                     {% if request.user in post.users_who_liked.all or request.user in post.users_who_liked %}
-                        <button type="submit" class="inline-flex items-center gap-2 text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 px-4 py-2 rounded-full transition-colors">
-                            <svg class="h-5 w-5 fill-rose-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        <!-- Liked Active Button -->
+                        <button type="submit" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 hover:bg-rose-500/20 active:scale-95 transition-all duration-200 text-sm font-semibold shadow-[0_0_15px_rgba(244,63,94,0.15)]">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-rose-500 animate-pulse">
+                                <path d="M11.645 20.91l-.007-.003-.003-.001a1.455 1.455 0 01-.527-.47L4.316 12.6C2.55 10.662 2.55 7.638 4.316 5.7L5.8 4.2C7.564 2.26 10.436 2.26 12.2 4.2l1.04 1.13 1.04-1.13c1.764-1.94 4.636-1.94 6.4 0l1.484 1.5c1.766 1.938 1.766 4.962 0 6.9l-6.8 7.84a1.455 1.455 0 01-.527.472l-.003.001-.007.003-.016.007a1.455 1.455 0 01-.98 0l-.016-.007z" />
                             </svg>
-                            <span>Liked</span>
+                            Liked ({{ post.likes_count }})
                         </button>
                     {% else %}
-                        <button type="submit" class="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 bg-slate-50 hover:bg-slate-100 hover:text-slate-900 px-4 py-2 rounded-full transition-colors">
-                            <svg class="h-5 w-5 fill-none stroke-current stroke-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        <!-- Unliked Neutral Button -->
+                        <button type="submit" class="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-800/60 border border-gray-700/50 text-gray-300 hover:text-rose-400 hover:border-rose-500/30 hover:bg-rose-500/10 active:scale-95 transition-all duration-200 text-sm font-medium">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
                             </svg>
-                            <span>Like post</span>
+                            Like ({{ post.likes_count }})
                         </button>
                     {% endif %}
                 </form>
+                {% else %}
+                <div class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-800/30 border border-gray-800/60 text-gray-400 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" class="w-4 h-4 text-rose-500/50"><path d="M11.645 20.91l-.007-.003-.003-.001a1.455 1.455 0 01-.527-.47L4.316 12.6C2.55 10.662 2.55 7.638 4.316 5.7L5.8 4.2C7.564 2.26 10.436 2.26 12.2 4.2l1.04 1.13 1.04-1.13c1.764-1.94 4.636-1.94 6.4 0l1.484 1.5c1.766 1.938 1.766 4.962 0 6.9l-6.8 7.84a1.455 1.455 0 01-.527.472l-.003.001-.007.003-.016.007a1.455 1.455 0 01-.98 0l-.016-.007z" /></svg>
+                    {{ post.likes_count }} Likes
+                </div>
+                {% endif %}
+            </div>
 
-                <div class="text-xs text-slate-400">
-                    {{ post.users_who_liked.count|default:0 }} kishi yoqtirdi
+            <!-- Jump to comments -->
+            <a href="#comments-section" class="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-indigo-300 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+                </svg>
+                {{ comments.count|default:0 }} Comments
+            </a>
+        </div>
+
+    </article>
+
+    <section id="comments-section" class="mt-12 px-2 md:px-6">
+        <h3 class="text-2xl font-bold text-white mb-8 flex items-center gap-3">
+            Discussion 
+            <span class="px-2.5 py-0.5 rounded-md bg-indigo-500/20 text-indigo-400 text-sm border border-indigo-500/30">
+                {{ comments.count|default:0 }}
+            </span>
+        </h3>
+
+        <!-- Comment Form -->
+        {% if request.user.is_authenticated %}
+        <div class="bg-[#111726]/40 border border-gray-800/80 rounded-2xl p-5 md:p-6 mb-10 shadow-lg">
+            <div class="flex items-start gap-4">
+                <div class="hidden sm:block flex-shrink-0">
+                    {% if request.user.profile_img %}
+                        <img src="{{ request.user.profile_img.url }}" class="w-10 h-10 rounded-full object-cover border border-gray-700" alt="You">
+                    {% else %}
+                        <div class="w-10 h-10 rounded-full bg-indigo-900/40 border border-indigo-500/30 flex items-center justify-center text-indigo-300 font-semibold text-xs">
+                            {{ request.user.username|slice:":1"|upper }}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="flex-grow w-full">
+                    <!-- Internal styling block to ensure Django form inputs match the dark theme -->
+                    <style>
+                        .django-comment-form input, 
+                        .django-comment-form textarea {
+                            width: 100%;
+                            background-color: rgba(17, 24, 39, 0.6);
+                            border: 1px solid rgba(75, 85, 99, 0.4);
+                            border-radius: 0.75rem;
+                            padding: 0.75rem 1rem;
+                            color: #f3f4f6;
+                            font-size: 0.875rem;
+                            line-height: 1.5;
+                            transition: all 0.2s;
+                        }
+                        .django-comment-form input:focus, 
+                        .django-comment-form textarea:focus {
+                            outline: none;
+                            border-color: #6366f1;
+                            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+                        }
+                        .django-comment-form label {
+                            display: block;
+                            font-size: 0.875rem;
+                            font-weight: 500;
+                            color: #9ca3af;
+                            margin-bottom: 0.25rem;
+                            margin-top: 0.75rem;
+                        }
+                        .django-comment-form p {
+                            margin-bottom: 0.5rem;
+                        }
+                    </style>
+                    <form method="POST" action="{% url 'comment' post.pk %}" class="django-comment-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        
+                        <div class="mt-4 flex justify-end">
+                            <button type="submit" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] transition-all duration-200 shadow-[0_4px_15px_rgba(79,70,229,0.2)] hover:shadow-[0_4px_20px_rgba(79,70,229,0.4)]">
+                                Post Comment
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                                </svg>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-    </article>
-
-    <!-- Izohlar Bo'limi -->
-    <section class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8">
-        <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
-            <svg class="h-5 w-5 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
-            </svg>
-            Izohlar ({{ comments.count|default:0 }})
-        </h3>
-
-        <!-- Izoh yozish formasi -->
-        <div class="mb-8 bg-slate-50 rounded-xl p-4 md:p-6">
-            <h4 class="text-sm font-semibold text-slate-800 mb-3">Fikringizni qoldiring:</h4>
-            <form method="POST" action="{% url 'comment' post.pk %}" class="space-y-4">
-                {% csrf_token %}
-                
-                <!-- Agar Django ModelForm ishlatayotgan bo'lsangiz, inputlarni chiroyli qilish uchun Tailwind o'rnatamiz -->
-                <div class="django-form-container">
-                    {{ form.as_p }}
-                </div>
-
-                <div class="flex justify-end">
-                    <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors shadow-sm">
-                        Izoh qoldirish
-                    </button>
-                </div>
-            </form>
+        {% else %}
+        <div class="bg-[#111726]/40 border border-gray-800/80 rounded-2xl p-6 text-center mb-10">
+            <p class="text-gray-400 mb-4">You must be signed in to leave a comment.</p>
+            <a href="{% url 'login' %}" class="inline-flex items-center px-4 py-2 rounded-lg text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 transition-colors">Sign In</a>
         </div>
+        {% endif %}
 
-        <!-- Mavjud izohlar ro'yxati -->
-        <div class="space-y-4">
+        <!-- Comments Feed -->
+        <div class="space-y-6">
             {% for comment in comments %}
-                <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 flex gap-3">
-                    <!-- Izoh muallifining bosh harfi -->
-                    <div class="h-10 w-10 rounded-full overflow-hidden bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-lg uppercase shadow-inner flex-shrink-0">
+            <div class="bg-[#111726]/20 border border-gray-800/50 rounded-2xl p-5 hover:border-gray-700/80 transition-colors">
+                <div class="flex items-center justify-between mb-3">
+                    <a href="{% url 'user-profile' comment.author.username %}" class="flex items-center gap-2.5 group">
                         {% if comment.author.profile_img %}
-                            <img src="{{ comment.author.profile_img.url }}" alt="{{ post.author }}" class="w-full h-full object-cover">
+                            <img src="{{ comment.author.profile_img.url }}" alt="{{ comment.author.username }}" class="w-8 h-8 rounded-full object-cover border border-gray-700 group-hover:border-indigo-400 transition-colors" onerror="this.onerror=null; this.src='https://placehold.co/100x100/1e1e2f/ffffff?text={{ comment.author.username|slice:":1"|upper }}';">
                         {% else %}
-                            {{ post.author|slice:":1" }}
+                            <div class="w-8 h-8 rounded-full bg-gray-800 border border-gray-700 flex items-center justify-center text-gray-300 font-semibold text-xs group-hover:border-indigo-400 group-hover:text-indigo-300 transition-colors">
+                                {{ comment.author.username|slice:":1"|upper }}
+                            </div>
                         {% endif %}
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center justify-between mb-1">
-                            <span class="text-sm font-bold text-slate-800">{{ comment.author.username }}</span>
-                            <span class="text-xs text-slate-400">{{ comment.created_at|timesince }} oldin</span>
-                        </div>
-                        <p class="text-sm text-slate-600 leading-relaxed">{{ comment.content }}</p>
-                    </div>
+                        <span class="text-sm font-semibold text-gray-200 group-hover:text-white transition-colors">
+                            {{ comment.author.username }}
+                        </span>
+                    </a>
+                    <span class="text-xs text-gray-500 font-medium">
+                        {{ comment.created_at|timesince }} ago
+                    </span>
                 </div>
+                
+                <div class="text-gray-300 text-sm leading-relaxed pl-10">
+                    {{ comment.content|linebreaksbr }}
+                </div>
+            </div>
             {% empty %}
-                <div class="text-center py-8">
-                    <p class="text-slate-400 text-sm italic">Hozircha hech qanday izoh yo'q. Birinchi bo'lib izoh qoldiring!</p>
-                </div>
+            <div class="text-center py-12 border border-dashed border-gray-800/80 rounded-2xl">
+                <p class="text-gray-500 text-sm">No comments yet. Be the first to share your thoughts!</p>
+            </div>
             {% endfor %}
         </div>
     </section>
-</div>
 
-<!-- Django form inputlarini Tailwind uslubiga solish uchun kichik CSS -->
-<style>
-    .django-form-container p {
-        margin-bottom: 1rem;
-    }
-    .django-form-container label {
-        display: block;
-        font-size: 0.875rem;
-        font-weight: 600;
-        color: #475569;
-        margin-bottom: 0.25rem;
-    }
-    .django-form-container input, 
-    .django-form-container textarea {
-        width: 100%;
-        padding: 0.5rem 0.75rem;
-        border-radius: 0.5rem;
-        border: 1px solid #cbd5e1;
-        background-color: #ffffff;
-        color: #1e293b;
-        font-size: 0.875rem;
-        outline: none;
-        transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .django-form-container input:focus, 
-    .django-form-container textarea:focus {
-        border-color: #4f46e5;
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-    }
-</style>
+</div>
 {% endblock %}
